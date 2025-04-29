@@ -577,7 +577,7 @@ svg:not(:root).svg-inline--fa, svg:not(:host).svg-inline--fa {
 
 <body id="aloe-widget">
   <gnf-root _nghost-ng-c3138240612="" ng-version="18.2.11"><router-outlet _ngcontent-ng-c3138240612=""></router-outlet><gnf-content-page _nghost-ng-c1294305597=""><gnf-content-page-detail _ngcontent-ng-c1294305597="" _nghost-ng-c4177782545=""><gnf-navbar-regular _ngcontent-ng-c4177782545="" _nghost-ng-c852050451=""><div _ngcontent-ng-c852050451="" class="sticky top-0 z-30 w-full h-12 bg-white shadow-fixed-top xl:h-14 dark:bg-dark-900"><div _ngcontent-ng-c852050451="" class="max-w-screen-xl h-full flex justify-between px-4 items-center mx-auto"><div _ngcontent-ng-c852050451="" matripple="" class="h-7 w-7 aspect-square -ml-1 rounded-full flex items-center justify-center shrink-0 cursor" style="position: relative;"><a href="https://guestnet-falkensteiner.vercel.app/" style="position: absolute; top: -10px; left: -10px; width: 50px; height: 50px; z-index: 1000; cursor: pointer;"></a><gnf-custom-icon _ngcontent-ng-c852050451="" icon="back" class="block h-[24px] w-[24px] aspect-square w-5 h-5 stroke-dark-900 dark:stroke-white hover:cursor-pointer"><svg viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="custom-icon"><g id="Iconly/Light/Arrow---Left-2" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"><g id="Arrow---Left-2" transform="translate(12.000000, 12.000000) rotate(-270.000000) translate(-12.000000, -12.000000) translate(5.000000, 8.500000)"><polyline id="Stroke-1" points="14 0 7 7 0 0"></polyline></g></g></svg></gnf-custom-icon></div><div _ngcontent-ng-c852050451="" class="px-1 text-xl font-extrabold truncate dark:text-white"> Sport & Tempo Libero</div><!----><div _ngcontent-ng-c852050451="" class="h-4 w-7 flex justify-end shrink-0 hover:cursor-pointer"><gnf-widget-notification-bell _ngcontent-ng-c852050451="" iconclass="stroke-black dark:stroke-white" _nghost-ng-c3593712744=""><div _ngcontent-ng-c3593712744="" cdkoverlayorigin="" class="relative h-4 w-4 shrink-0 text-right"><!----></div><!----></gnf-widget-notification-bell><!----><!----><!----><!----><!----><!----><!----></div></div></div></gnf-navbar-regular><div _ngcontent-ng-c4177782545="" class="dark:bg-white dark:text-black"><div _ngcontent-ng-c4177782545="" class="relative content-container z-0" style="overflow: visible;"><div _ngcontent-ng-c4177782545="" class="md:flex md:gap-8"><gnf-image-carousel _ngcontent-ng-c4177782545="" _nghost-ng-c3455091079="" class="h-0 w-full block md:hidden"><!----></gnf-image-carousel><div _ngcontent-ng-c4177782545="" class="pt-4 mt-6 space-y-8 md:px-0 w-full md:mt-0 dark:text-white" style="overflow: visible;"><div _ngcontent-ng-c4177782545="" class="px-4"><!----><div _ngcontent-ng-c4177782545="" widget="" class="dark:text-black" style="position: relative; z-index: 1000; min-height: 800px; overflow: visible;">
-<aloe-collection uuid="1f01e329-5930-68d2-985d-0edb3556f30d"></aloe-collection>
+<aloe-collection uuid="1f024e00-2556-6fb0-b43f-0edb3556f30d"></aloe-collection>
 <script src="https://demo.aloesuite.com/widget.js"></script>
 <style>
   /* Overlay scuro quando il carrello è aperto */
@@ -618,13 +618,15 @@ svg:not(:root).svg-inline--fa, svg:not(:host).svg-inline--fa {
   .aloe-cart-overlay {
     display: none !important; /* Nascondiamo completamente l'overlay originale */
   }
-  /* Assicurati che il carrello sia sempre sopra l'overlay */
+  /* Assicurati che il carrello sia sempre sopra l'overlay e prenda tutta la larghezza dello schermo */
   .aloe-cart-container {
     z-index: 1000 !important;
     position: relative !important;
-    width: 100% !important;
-    max-width: 500px !important;
-    margin: 0 auto !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    margin: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
   }
   /* Overlay scuro a schermo intero quando il carrello è aperto */
   .cart-fullscreen-overlay {
@@ -637,6 +639,8 @@ svg:not(:root).svg-inline--fa, svg:not(:host).svg-inline--fa {
     background-color: rgba(0, 0, 0, 0.7);
     z-index: 89;
     pointer-events: all; /* Blocca le interazioni con il contenuto sottostante */
+    margin: 0 !important;
+    padding: 0 !important;
   }
   body.aloe-cart-open .cart-fullscreen-overlay {
     display: block;
@@ -645,31 +649,71 @@ svg:not(:root).svg-inline--fa, svg:not(:host).svg-inline--fa {
 <div class="aloe-cart-overlay"></div>
 <div class="cart-fullscreen-overlay"></div>
 <script>
-  // Script per rilevare quando il carrello è aperto
+  // Script migliorato per rilevare quando il carrello è aperto
   document.addEventListener('DOMContentLoaded', function() {
-    // Controlla periodicamente se il carrello è aperto
-    setInterval(function() {
+    // Funzione per gestire lo stato del carrello
+    function handleCartState() {
       // Cerca l'elemento del carrello
       var cartElement = document.querySelector('.aloe-cart-container');
+
+      // Verifica se il carrello è visibile
       if (cartElement && window.getComputedStyle(cartElement).display !== 'none') {
         // Il carrello è aperto, aggiungi la classe al body
         document.body.classList.add('aloe-cart-open');
+
         // Assicurati che il carrello sia sopra l'overlay
         cartElement.style.zIndex = '1000';
         cartElement.style.position = 'relative';
 
-        // Assicurati che il carrello sia sempre visibile e centrato
-        var cartRect = cartElement.getBoundingClientRect();
-        var columnCenter = document.querySelector('.cart-column-center');
-        if (columnCenter) {
-          columnCenter.style.width = cartRect.width + 'px';
-          columnCenter.style.maxWidth = cartRect.width + 'px';
+        // Assicurati che il carrello prenda tutta la larghezza dello schermo
+        cartElement.style.width = '100vw';
+        cartElement.style.maxWidth = '100vw';
+        cartElement.style.margin = '0';
+        cartElement.style.left = '0';
+        cartElement.style.right = '0';
+
+        // Forza la visualizzazione dell'overlay
+        var overlay = document.querySelector('.cart-fullscreen-overlay');
+        if (overlay) {
+          overlay.style.display = 'block';
+          overlay.style.width = '100vw';
+          overlay.style.margin = '0';
+          overlay.style.padding = '0';
         }
       } else {
         // Il carrello è chiuso, rimuovi la classe dal body
         document.body.classList.remove('aloe-cart-open');
+
+        // Nascondi l'overlay
+        var overlay = document.querySelector('.cart-fullscreen-overlay');
+        if (overlay) {
+          overlay.style.display = 'none';
+        }
       }
-    }, 300);
+    }
+
+    // Controlla periodicamente lo stato del carrello
+    setInterval(handleCartState, 300);
+
+    // Esegui anche al caricamento della pagina
+    handleCartState();
+
+    // Osserva le modifiche al DOM per rilevare quando il carrello viene aperto/chiuso
+    var observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        if (mutation.type === 'childList' || mutation.type === 'attributes') {
+          handleCartState();
+        }
+      });
+    });
+
+    // Osserva l'intero documento per le modifiche
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['style', 'class']
+    });
   });
 </script>
 </div>
